@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/juankno/fiber-auth/model"
@@ -15,19 +14,24 @@ var DB *gorm.DB
 
 func Connect() {
 
-	var DSN = fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s",
+	DSN := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"))
 
 	var err error
+	DB, err = gorm.Open(postgres.Open(DSN), &gorm.Config{})
 
-	DB, err := gorm.Open(postgres.Open(DSN), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Println("Connection Opened to Database")
-
-		DB.AutoMigrate(&model.Book{}, &model.User{})
-		fmt.Println("Database Migrated")
+		panic("failed to connect database")
 	}
+
+	fmt.Println("Connection Opened to Database")
+
+	err = DB.AutoMigrate(&model.Book{}, &model.User{})
+
+	if err != nil {
+		panic("failed to migrate database schemas")
+	}
+	fmt.Println("Database Migrated")
+
 }
