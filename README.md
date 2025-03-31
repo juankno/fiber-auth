@@ -29,7 +29,7 @@ Fiber Auth is a lightweight authentication service built with the [Fiber](https:
    - Update the database connection string in `config/config.go`.
 
 ```bash
-    docker run --name fiber-auth -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=fiber-auth -p 5432:5432 -d postgres
+    docker run --name fiber-auth -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=fiber_auth -p 5432:5432 -d postgres
 ```
 
 3. Run the application:
