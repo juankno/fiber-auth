@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/juankno/fiber-auth/database"
+	"github.com/juankno/fiber-auth/router"
 )
 
 func main() {
@@ -23,5 +24,7 @@ func main() {
 		return c.SendString("Hello, World!")
 	})
 
-	log.Fatal(app.Listen("localhost:3000"))
+	router.SetupRoutes(app)
+
+	log.Fatal(app.Listen(":3000"))
 }
